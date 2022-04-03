@@ -31,3 +31,16 @@ let map = L.map('mapid', {
 // Control layers 
 // Pass our map layers into our layers control and add the layers control to the map
 L.control.layers(baseMaps).addTo(map);
+
+let airportData = "https://raw.githubusercontent.com/abdulhakim97/Mapping_Earthquakes/main/Simple_Map/majorAirports.json";
+
+// ACCESSING FEATURE COLLECTION GEOJSON DATA
+d3.json(airportData).then(function(data) {
+  console.log(data);
+  // Creating a GeoJSON layer with the retrieved data
+  L.geoJSON(data, {
+      onEachFeature: function(feature, layer) {
+          layer.bindPopup("<h2>" + feature.properties.name + "</h2> <hr> <h3>" + feature.properties.city + ", " + feature.properties.country +  "</h3>")
+      }
+  }).addTo(map);
+});
